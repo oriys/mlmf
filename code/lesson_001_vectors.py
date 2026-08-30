@@ -1,157 +1,109 @@
-"""Lesson 001: vectors and data representation.
+"""Runnable examples for lesson 001: vectors and data representation.
 
-The functions in this module intentionally expose validation and Shape checks.
-They are small enough to compare directly with the mathematical definitions in
-``lessons/001-vectors-and-data-representation.md``.
+Run from the repository root:
+
+    python code/lesson_001_vectors.py
 """
 
 from __future__ import annotations
 
-from typing import TypeAlias
+from pathlib import Path
+import sys
 
 import numpy as np
-from numpy.typing import ArrayLike, NDArray
 
-FloatVector: TypeAlias = NDArray[np.float64]
+# Make the repository package importable when this file is executed directly.
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
 
-
-def as_float_vector(values: ArrayLike, *, name: str = "vector") -> FloatVector:
-    """Return *values* as a finite, non-empty, one-dimensional float vector.
-
-    Args:
-        values: Any array-like value accepted by NumPy.
-        name: Human-readable input name used in validation errors.
-
-    Raises:
-        TypeError: If the input cannot be converted to floating-point values.
-        ValueError: If the result is not one-dimensional, is empty, or contains
-            NaN or infinity.
-    """
-
-    try:
-        vector = np.asarray(values, dtype=np.float64)
-    except (TypeError, ValueError) as exc:
-        raise TypeError(f"{name} must contain numeric values") from exc
-
-    if vector.ndim != 1:
-        raise ValueError(
-            f"{name} must be one-dimensional; received shape {vector.shape}"
-        )
-    if vector.size == 0:
-        raise ValueError(f"{name} must not be empty")
-    if not np.all(np.isfinite(vector)):
-        raise ValueError(f"{name} must contain only finite values")
-
-    return vector
+from mlmf import (  # noqa: E402
+    batch_linear_scores,
+    cosine_similarity,
+    dot_product,
+    euclidean_distance,
+    l1_norm,
+    l2_norm,
+    linear_score,
+    scalar_multiply,
+    vector_add,
+)
 
 
-def _matching_vectors(x: ArrayLike, y: ArrayLike) -> tuple[FloatVector, FloatVector]:
-    """Validate and return two vectors with equal Shape."""
+def demonstrate_basic_operations() -> None:
+    """Show the direct correspondence between formulas and code."""
 
-    x_vector = as_float_vector(x, name="x")
-    y_vector = as_float_vector(y, name="y")
+    x = np.array([1.0, 2.0, 3.0])
+    y = np.array([4.0, 5.0, 6.0])
 
-    if x_vector.shape != y_vector.shape:
-        raise ValueError(
-            "x and y must have the same shape; "
-            f"received {x_vector.shape} and {y_vector.shape}"
-        )
-
-    return x_vector, y_vector
-
-
-def vector_add(x: ArrayLike, y: ArrayLike) -> FloatVector:
-    """Compute vector addition after explicit Shape validation."""
-
-    x_vector, y_vector = _matching_vectors(x, y)
-    return x_vector + y_vector
-
-
-def scalar_multiply(scalar: float, vector: ArrayLike) -> FloatVector:
-    """Multiply every vector component by a finite scalar."""
-
-    scalar_value = float(scalar)
-    if not np.isfinite(scalar_value):
-        raise ValueError("scalar must be finite")
-
-    return scalar_value * as_float_vector(vector)
+    print("Basic vector operations")
+    print("-----------------------")
+    print(f"x = {x}")
+    print(f"y = {y}")
+    print(f"x + y = {vector_add(x, y)}")
+    print(f"2x = {scalar_multiply(2.0, x)}")
+    print(f"x · y = {dot_product(x, y):.6f}")
+    print(f"||x||_1 = {l1_norm(x):.6f}")
+    print(f"||x||_2 = {l2_norm(x):.6f}")
+    print(f"distance(x, y) = {euclidean_distance(x, y):.6f}")
+    print(
+        "cosine_similarity(x, y) = "
+        f"{cosine_similarity(x, y):.6f}"
+    )
+    print()
 
 
-def dot_product(x: ArrayLike, y: ArrayLike) -> float:
-    """Compute a dot product from its element-wise mathematical definition.
+def demonstrate_linear_model() -> None:
+    """Represent houses as vectors and compute linear model scores."""
 
-    This deliberately uses ``sum(x_i * y_i)`` rather than ``np.dot`` so the
-    implementation mirrors the formula introduced in the lesson.
-    """
+    feature_names = ("area_m2", "bedrooms", "distance_to_center_km")
+    houses = np.array(
+        [
+            [80.0, 2.0, 6.0],
+            [75.0, 3.0, 5.0],
+            [120.0, 4.0, 12.0],
+        ]
+    )
+    weights = np.array([0.7, 10.0, -2.0])
+    bias = 5.0
 
-    x_vector, y_vector = _matching_vectors(x, y)
-    return float(np.sum(x_vector * y_vector))
+    first_score = linear_score(houses[0], weights, bias)
+    all_scores = batch_linear_scores(houses, weights, bias)
 
+    print("A tiny linear-model example")
+    print("---------------------------")
+    print(f"feature order = {feature_names}")
+    print(f"X.shape = {houses.shape}")
+    print(f"w.shape = {weights.shape}")
+    print(f"first sample score = {first_score:.6f}")
+    print(f"batch scores = {all_scores}")
+    print()
 
-def l1_norm(vector: ArrayLike) -> float:
-    """Return the L1 norm: sum of absolute component values."""
-
-    validated = as_float_vector(vector)
-    return float(np.sum(np.abs(validated)))
-
-
-def l2_norm(vector: ArrayLike) -> float:
-    """Return the Euclidean (L2) norm."""
-
-    validated = as_float_vector(vector)
-    return float(np.sqrt(np.sum(validated**2)))
-
-
-def cosine_similarity(x: ArrayLike, y: ArrayLike) -> float:
-    """Return cosine similarity for two non-zero vectors.
-
-    Raises:
-        ValueError: If either vector is a zero vector, because its direction is
-            undefined and the cosine denominator would be zero.
-    """
-
-    x_vector, y_vector = _matching_vectors(x, y)
-    x_norm = l2_norm(x_vector)
-    y_norm = l2_norm(y_vector)
-
-    if x_norm == 0.0 or y_norm == 0.0:
-        raise ValueError("cosine similarity is undefined for a zero vector")
-
-    similarity = dot_product(x_vector, y_vector) / (x_norm * y_norm)
-
-    # Floating-point roundoff can produce values such as 1.0000000000000002.
-    return float(np.clip(similarity, -1.0, 1.0))
+    # A single-sample score and the matching row in a batch must agree.
+    assert np.isclose(first_score, all_scores[0])
 
 
-def linear_score(features: ArrayLike, weights: ArrayLike, bias: float = 0.0) -> float:
-    """Compute ``features @ weights + bias`` with explicit validation."""
+def demonstrate_shape_semantics() -> None:
+    """Show why one-dimensional, row, and column arrays differ."""
 
-    feature_vector, weight_vector = _matching_vectors(features, weights)
-    bias_value = float(bias)
-    if not np.isfinite(bias_value):
-        raise ValueError("bias must be finite")
+    vector = np.array([1.0, 2.0, 3.0])
+    row = vector.reshape(1, 3)
+    column = vector.reshape(3, 1)
 
-    return dot_product(feature_vector, weight_vector) + bias_value
+    print("Shape semantics")
+    print("---------------")
+    print(f"vector.shape = {vector.shape}")
+    print(f"row.shape = {row.shape}")
+    print(f"column.shape = {column.shape}")
+    print(f"row @ column shape = {(row @ column).shape}")
+    print(f"column @ row shape = {(column @ row).shape}")
+    print()
 
 
 def main() -> None:
-    """Run a small example from the lesson."""
-
-    feature_names = ("area_m2", "bedrooms", "age_years")
-    features = np.array([80.0, 2.0, 10.0])
-    weights = np.array([1.5, 20.0, -0.8])
-    bias = 5.0
-
-    print("Feature contract:")
-    for name, value in zip(feature_names, features, strict=True):
-        print(f"  {name}: {value}")
-
-    print(f"features.shape = {features.shape}")
-    print(f"weights.shape  = {weights.shape}")
-    print(f"dot product    = {dot_product(features, weights):.2f}")
-    print(f"linear score   = {linear_score(features, weights, bias):.2f}")
-    print(f"L1 norm        = {l1_norm(features):.2f}")
-    print(f"L2 norm        = {l2_norm(features):.2f}")
+    demonstrate_basic_operations()
+    demonstrate_linear_model()
+    demonstrate_shape_semantics()
 
 
 if __name__ == "__main__":
