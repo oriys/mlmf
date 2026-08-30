@@ -12,8 +12,9 @@
 2. 了解[五层学习方法](docs/02-study-method.md)；
 3. 查看[完整课程目录](curriculum/README.md)；
 4. 开始[第 1 课：向量与数据表示](lessons/001-vectors-and-data-representation.md)；
-5. 完成[第 1 课练习](exercises/001-vectors-and-data-representation.md)；
-6. 在 [PROGRESS.md](PROGRESS.md) 记录进度。
+5. 独立完成[第 1 课练习](exercises/001-vectors-and-data-representation.md)；
+6. 完成后再核对[第 1 课参考答案](solutions/001-vectors-and-data-representation.md)；
+7. 在 [PROGRESS.md](PROGRESS.md) 记录进度和错误。
 
 查阅资料：
 
@@ -83,9 +84,9 @@
 | Phase 2 | 微积分与自动微分 | 梯度下降、计算图和反向传播 |
 | Phase 3 | 概率论与数理统计 | MLE、MAP、贝叶斯和泛化 |
 | Phase 4 | 最优化、信息论与数值计算 | SGD、Adam、交叉熵和稳定 Softmax |
-| Phase 5 | 模型综合实践 | 逻辑回归、PCA、SVM 和两层神经网络 |
+| Phase 5 | 模型综合实践 | 逻辑回归、K-Means、PCA、两层网络和 Attention |
 
-完整课次和阶段项目见[课程目录](curriculum/README.md)。
+完整的 36 节核心课与阶段项目见[课程目录](curriculum/README.md)。
 
 ## 五层掌握法
 
@@ -163,11 +164,13 @@ mlmf/
 ├── PROGRESS.md                    # 学习进度和失败实验记录
 ├── CONTRIBUTING.md                # 课程与代码编写规范
 ├── docs/                          # 路线、方法、知识地图、符号规范
-├── curriculum/                    # 完整课程索引
+├── curriculum/                    # 36 节核心课的完整索引
 ├── lessons/                       # 逐课正文
 ├── exercises/                     # 计算、推导、编程和诊断练习
-├── code/                          # NumPy 参考实现
-├── tests/                         # 自动化测试
+├── solutions/                     # 独立完成练习后再查看的参考答案
+├── code/                          # 可直接运行的 NumPy 演示程序
+├── mlmf/                          # 经过输入校验的参考实现
+├── tests/                         # 正常、边界和错误输入测试
 ├── .github/workflows/tests.yml    # 持续集成
 ├── requirements.txt
 └── LICENSE
@@ -175,11 +178,12 @@ mlmf/
 
 ## 当前内容
 
-已完成首个可运行学习闭环：
+首个可运行学习闭环已经完成：
 
 ```text
 第 1 课正文
 → 四类练习
+→ 参考答案
 → NumPy 向量实现
 → 正常与错误输入测试
 → GitHub Actions 自动校验
@@ -190,8 +194,8 @@ mlmf/
 - 特征向量与数据契约；
 - 标量、向量、矩阵和张量；
 - 向量加法、数乘和点积；
-- L1、L2 范数；
-- 线性得分；
+- L1、L2 范数、距离与余弦相似度；
+- 单样本和 Batch 线性得分；
 - NumPy 一维向量陷阱；
 - Shape、广播、单位和特征顺序错误。
 
