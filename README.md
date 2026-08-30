@@ -13,7 +13,7 @@
 3. 查看[完整课程目录](curriculum/README.md)；
 4. 开始[第 1 课：向量与数据表示](lessons/001-vectors-and-data-representation.md)；
 5. 独立完成[第 1 课练习](exercises/001-vectors-and-data-representation.md)；
-6. 完成后再核对[第 1 课参考答案](solutions/001-vectors-and-data-representation.md)；
+6. 完成后再核对[第 1 课参考答案](exercises/solutions/001-vectors-and-data-representation.md)；
 7. 在 [PROGRESS.md](PROGRESS.md) 记录进度和错误。
 
 查阅资料：
@@ -86,7 +86,7 @@
 | Phase 4 | 最优化、信息论与数值计算 | SGD、Adam、交叉熵和稳定 Softmax |
 | Phase 5 | 模型综合实践 | 逻辑回归、K-Means、PCA、两层网络和 Attention |
 
-完整的 36 节核心课与阶段项目见[课程目录](curriculum/README.md)。
+完整的 45 节核心课与阶段项目见[课程目录](curriculum/README.md)。
 
 ## 五层掌握法
 
@@ -164,10 +164,10 @@ mlmf/
 ├── PROGRESS.md                    # 学习进度和失败实验记录
 ├── CONTRIBUTING.md                # 课程与代码编写规范
 ├── docs/                          # 路线、方法、知识地图、符号规范
-├── curriculum/                    # 36 节核心课的完整索引
+├── curriculum/                    # 45 节核心课的完整索引
 ├── lessons/                       # 逐课正文
 ├── exercises/                     # 计算、推导、编程和诊断练习
-├── solutions/                     # 独立完成练习后再查看的参考答案
+│   └── solutions/                 # 独立完成练习后再查看的参考答案
 ├── code/                          # 可直接运行的 NumPy 演示程序
 ├── mlmf/                          # 经过输入校验的参考实现
 ├── tests/                         # 正常、边界和错误输入测试
@@ -182,7 +182,7 @@ mlmf/
 
 ```text
 第 1 课正文
-→ 四类练习
+→ 五类练习
 → 参考答案
 → NumPy 向量实现
 → 正常与错误输入测试
