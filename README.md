@@ -13,7 +13,7 @@
 3. 查看[完整课程目录](curriculum/README.md)；
 4. 开始[第 1 课：向量与数据表示](lessons/001-vectors-and-data-representation.md)；
 5. 独立完成[第 1 课练习](exercises/001-vectors-and-data-representation.md)；
-6. 完成后再核对[第 1 课参考答案](solutions/001-vectors-and-data-representation.md)；
+6. 完成后再核对[第 1 课参考答案](exercises/solutions/001-vectors-and-data-representation.md)；
 7. 在 [PROGRESS.md](PROGRESS.md) 记录进度和错误。
 
 查阅资料：
@@ -167,7 +167,7 @@ mlmf/
 ├── curriculum/                    # 45 节核心课的完整索引
 ├── lessons/                       # 逐课正文
 ├── exercises/                     # 计算、推导、编程和诊断练习
-├── solutions/                     # 独立完成练习后再查看的参考答案
+│   └── solutions/                 # 独立完成练习后再查看的参考答案
 ├── code/                          # 可直接运行的 NumPy 演示程序
 ├── mlmf/                          # 经过输入校验的参考实现
 ├── tests/                         # 正常、边界和错误输入测试
