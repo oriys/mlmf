@@ -4,6 +4,16 @@
 
 这是一个面向程序员的机器学习数学课程。目标不是先完整学习一遍数学专业课程，而是沿着机器学习模型所需的数学主线，逐步建立可推导、可实现、可诊断的数学能力。
 
+## 当前内容
+
+- 完整的机器学习数学知识地图；
+- 六阶段学习路线；
+- 可执行的 12 周课程计划；
+- 五层掌握法与固定学习模板；
+- 第 1 课完整讲义、分层练习和答案；
+- 可运行的 NumPy 示例与错误诊断实验；
+- 学习进度追踪表。
+
 ## 学习目标
 
 完成本课程后，你应该能够：
@@ -46,7 +56,13 @@
 | Phase 4 | 最优化、信息论与数值计算 | SGD、Adam、交叉熵、稳定 Softmax |
 | Phase 5 | 模型综合实践 | 逻辑回归、PCA、两层神经网络 |
 
-详细路线见：[学习路线](docs/01-roadmap.md)。
+核心导航：
+
+- [学习路线](docs/01-roadmap.md)
+- [学习方法](docs/02-study-method.md)
+- [知识地图](docs/03-knowledge-map.md)
+- [12 周课程计划](curriculum/12-week-plan.md)
+- [学习进度](PROGRESS.md)
 
 ## 推荐学习方式
 
@@ -58,7 +74,42 @@
 4. **实现**：能够使用 NumPy 实现并验证；
 5. **诊断**：能够解释错误结果、训练异常和数值问题。
 
-详见：[学习方法](docs/02-study-method.md)。
+不要等到“数学全部学完”才开始模型。每学习一个数学概念，都应该立刻回答三个问题：
+
+- 它在机器学习中解决什么问题？
+- 它出现在什么模型或公式里？
+- 我能否手算、推导并用代码验证？
+
+## 第一课
+
+从下面的顺序开始：
+
+1. [讲义：向量与机器学习中的数据表示](lessons/001-vectors-and-data-representation.md)
+2. [练习：向量与数据表示](exercises/001-vectors.md)
+3. [配套 NumPy 代码](code/lesson001_vectors.py)
+4. [练习答案](exercises/solutions/001-vectors-solutions.md)
+
+建议先完成练习，再查看答案。
+
+## 快速运行
+
+```bash
+git clone https://github.com/oriys/mlmf.git
+cd mlmf
+
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python code/lesson001_vectors.py
+```
+
+Windows PowerShell 激活虚拟环境：
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+代码说明见：[配套代码使用指南](code/README.md)。
 
 ## 推荐学习顺序
 
@@ -72,27 +123,19 @@
 两层神经网络
 ```
 
-不要等到“数学全部学完”才开始模型。每学习一个数学概念，都应该立刻回答三个问题：
-
-- 它在机器学习中解决什么问题？
-- 它出现在什么模型或公式里？
-- 我能否手算、推导并用代码验证？
-
 ## 仓库结构
 
 ```text
 mlmf/
 ├── README.md
+├── PROGRESS.md          # 学习进度与复盘记录
+├── requirements.txt    # Python 依赖
 ├── docs/               # 学习路线、方法和知识地图
-├── curriculum/         # 分阶段课程大纲
+├── curriculum/         # 12 周课程计划
 ├── lessons/            # 逐课学习内容
-├── exercises/          # 手算、推导、编程和诊断练习
+├── exercises/          # 手算、推导、编程、诊断题及答案
 └── code/               # NumPy 实现与实验
 ```
-
-## 第一课
-
-从 [第 1 课：向量与机器学习中的数据表示](lessons/001-vectors-and-data-representation.md) 开始。
 
 ## 学习原则
 
@@ -105,4 +148,4 @@ mlmf/
 
 ## License
 
-本项目采用 MIT License。
+本项目采用 [MIT License](LICENSE)。
